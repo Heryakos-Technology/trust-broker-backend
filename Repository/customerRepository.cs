@@ -130,7 +130,7 @@ namespace broker.Data
         {
              Console.WriteLine("Update method  invoked");
                 _context.Update(customer).Property(x => x.CustomerId).IsModified = false;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync(); 
              return customer;
         }
 
