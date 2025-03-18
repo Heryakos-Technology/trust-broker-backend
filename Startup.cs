@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using ImageUploader.Handler;
 using Azure.Storage.Blobs;
 using AzureBlob.Api.Logics;
-
+using Microsoft.Extensions.Logging;
 namespace broker_service
 {
     public class Startup
@@ -37,7 +37,12 @@ namespace broker_service
             //     ));
      var sqlConnectionString = Configuration.GetConnectionString("PostgreSqlConnectionString");
   
-            services.AddDbContext<DataContext>(options => options.UseNpgsql(sqlConnectionString));  
+            services.AddDbContext<DataContext>(options => 
+            {
+                options.UseNpgsql(sqlConnectionString)
+                       .EnableSensitiveDataLogging()  // Enable sensitive data logging
+                       .LogTo(Console.WriteLine, LogLevel.Information);
+            });
 
             services.AddControllers();
 

@@ -19,7 +19,7 @@ namespace broker.Data
 
        public BrokerData(int totalPage, List<Broker> brokers){
            this.totalPage=totalPage;
-           this.service=service;
+           this.service=brokers;
        }
 
 
