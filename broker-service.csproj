@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
     <RootNamespace>broker_service</RootNamespace>
+    <DockerDefaultTargetOs>Linux</DockerDefaultTargetOs>
+    <DockerfileContext>.</DockerfileContext>
+    <InvariantGlobalization>true<InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
