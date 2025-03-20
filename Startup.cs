@@ -131,7 +131,7 @@ namespace broker_service
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseHealthChecks("/health");
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
