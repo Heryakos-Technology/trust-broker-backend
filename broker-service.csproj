@@ -5,7 +5,7 @@
     <RootNamespace>broker_service</RootNamespace>
     <DockerDefaultTargetOs>Linux</DockerDefaultTargetOs>
     <DockerfileContext>.</DockerfileContext>
-    <InvariantGlobalization>true<InvariantGlobalization>
+    <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
   <ItemGroup>
