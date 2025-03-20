@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:9.0-preview AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build-env
 WORKDIR /app
 
 # Copy the csproj file and restore dependencies
@@ -11,7 +11,7 @@ COPY . ./
 RUN /usr/bin/dotnet publish broker-service.csproj -c Release -o out
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-preview
+FROM mcr.microsoft.com/dotnet/aspnet:9.0
 WORKDIR /app
 EXPOSE 80
 ENV ASPNETCORE_URLS=http://*:80
