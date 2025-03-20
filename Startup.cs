@@ -45,7 +45,7 @@ namespace broker_service
             });
 
             services.AddControllers();
-
+            services.AddHealthChecks();
             //    var appSettingsSection = Configuration.GetSection("AppSettings");
             //     services.Configure<AppSettings>(appSettingsSection);
 
