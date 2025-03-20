@@ -96,6 +96,10 @@
               "target": "Package",
               "version": "[9.0.3, )"
             },
+            "Microsoft.Extensions.Diagnostics.HealthChecks": {
+              "target": "Package",
+              "version": "[9.0.3, )"
+            },
             "Microsoft.OpenApi": {
               "target": "Package",
               "version": "[1.6.23, )"
