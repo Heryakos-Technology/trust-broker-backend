@@ -15,6 +15,7 @@ using ImageUploader.Handler;
 using Azure.Storage.Blobs;
 using AzureBlob.Api.Logics;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 namespace broker_service
 {
     public class Startup
@@ -35,7 +36,7 @@ namespace broker_service
             //      o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
 
             //     ));
-     var sqlConnectionString = Configuration.GetConnectionString("PostgreSqlConnectionString");
+     var sqlConnectionString = Environment.GetEnvironmentVariable("DATABASE_URL")  ?? Configuration.GetConnectionString("PostgreSqlConnectionString");
   
             services.AddDbContext<DataContext>(options => 
             {
@@ -119,8 +120,59 @@ namespace broker_service
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
+            lifetime.ApplicationStarted.Register(() =>
+{
+    try
+    {
+        using (var scope = app.ApplicationServices.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+            using (var connection = context.Database.GetDbConnection())
+            {
+                connection.Open();
+                using (var command = connection.CreateCommand())
+                {
+                    command.CommandText = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var tableName = reader.GetString(0);
+                            Console.WriteLine($"Table: {tableName}");
+                            using (var sampleCommand = connection.CreateCommand())
+                            {
+                                sampleCommand.CommandText = $"SELECT * FROM {tableName} LIMIT 1";
+                                using (var sampleReader = sampleCommand.ExecuteReader())
+                                {
+                                    if (sampleReader.Read())
+                                    {
+                                        var values = new List<string>();
+                                        for (int i = 0; i < sampleReader.FieldCount; i++)
+                                        {
+                                            values.Add(sampleReader[i].ToString());
+                                        }
+                                        Console.WriteLine($"Sample row: {string.Join(", ", values)}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("No data in this table");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error logging database tables: {ex.Message}");
+    }
+});
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
