@@ -3,12 +3,14 @@
 using System;
 using broker.Models;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata; // Add this line
+
 namespace broker.Data
 
 {
     public class DataContext : DbContext
     {
-        public DataContext() { }
+        // public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
 
@@ -17,7 +19,7 @@ namespace broker.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Broker> Brokers { get; set; }
         public DbSet<Customer> Customers { get; set; }
-        public DbSet<Category> Catigories { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         public DbSet<City> Cities { get; set; }
         public DbSet<Portfolio> Portfolios { get; set; }
@@ -32,7 +34,9 @@ namespace broker.Data
 
          protected override void OnModelCreating(ModelBuilder builder)  
         {  
-            base.OnModelCreating(builder);  
+        builder.Entity<Customer>()
+            .Property(c => c.CustomerId)
+            .ValueGeneratedOnAdd(); 
         }  
   
         public override int SaveChanges()  
