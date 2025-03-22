@@ -35,43 +35,48 @@ namespace broker_service
             // services.AddDbContext<DataContext>(opt => opt.UseSqlServer(
             //     Configuration.GetConnectionString("brokerConnection"),
             //      o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
-
+    string connectionString; // Explicit declaration
             //     ));
-     var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
-                Configuration.GetConnectionString("PostgreSqlConnectionString");
+     var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-// Handle both connection string formats
 if (string.IsNullOrEmpty(databaseUrl))
 {
-    throw new InvalidOperationException("No database connection string configured");
-}
-
-NpgsqlConnectionStringBuilder connectionBuilder;
-
-if (databaseUrl.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
-{
-    // Parse Render-style PostgreSQL URL
-    var uri = new Uri(databaseUrl);
-    var userInfo = uri.UserInfo.Split(':');
-
-    connectionBuilder = new NpgsqlConnectionStringBuilder
-    {
-        Host = uri.Host,
-        Port = uri.Port,
-        Username = userInfo[0],
-        Password = userInfo[1],
-        Database = uri.AbsolutePath.TrimStart('/'),
-        SslMode = SslMode.Require
-    };
+    // Local development
+    connectionString = Configuration.GetConnectionString("PostgreSqlConnectionString");
 }
 else
 {
-    // Use direct connection string format
-    connectionBuilder = new NpgsqlConnectionStringBuilder(databaseUrl);
+    // Fix for Render's connection format
+    var fixedUrl = databaseUrl
+        .Replace("postgres://", "postgresql://", StringComparison.OrdinalIgnoreCase)
+        .Replace("postgresql://", "postgresql://", StringComparison.OrdinalIgnoreCase);
+
+    var uri = new Uri(fixedUrl);
+    var userInfo = uri.UserInfo.Split(':');
+    
+    // Handle port extraction
+    var port = uri.Port > 0 ? uri.Port : 5432;
+    
+    // Handle special characters in password
+    var password = Uri.UnescapeDataString(userInfo[1]);
+
+    connectionString = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = port,
+        Username = userInfo[0],
+        Password = password,
+        Database = uri.AbsolutePath.TrimStart('/'),
+        SslMode = SslMode.Require,
+        // TrustServerCertificate = true
+    }.ToString();
 }
 
-// Remove obsolete property warning
-var connectionString = connectionBuilder.ToString();
+// Verify connection string format
+if (string.IsNullOrEmpty(connectionString) || !connectionString.Contains("Host="))
+{
+    throw new InvalidOperationException("Invalid database connection configuration");
+}
 
             services.AddDbContext<DataContext>(options => 
             {
