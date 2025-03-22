@@ -1,36 +1,31 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-
-#nullable disable
 
 namespace broker_service.Migrations
 {
-    /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categories",
+                name: "Catigories",
                 columns: table => new
                 {
-                    CategoryId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CatigoryName = table.Column<string>(type: "text", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CatigoryName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Categories", x => x.CategoryId);
+                    table.PrimaryKey("PK_Catigories", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Cities",
                 columns: table => new
                 {
-                    CityId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CityName = table.Column<string>(type: "text", nullable: true)
+                    CityId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CityName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -41,12 +36,12 @@ namespace broker_service.Migrations
                 name: "Savings",
                 columns: table => new
                 {
-                    SavingId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FullName = table.Column<string>(type: "text", nullable: true),
-                    Phone = table.Column<string>(type: "text", nullable: true),
-                    Picture = table.Column<string>(type: "text", nullable: true),
-                    IdentificationCard = table.Column<string>(type: "text", nullable: true)
+                    SavingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentificationCard = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,12 +52,12 @@ namespace broker_service.Migrations
                 name: "Skills",
                 columns: table => new
                 {
-                    SkillsId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CommunicationSkill = table.Column<double>(type: "double precision", nullable: false),
-                    BrokingSkill = table.Column<double>(type: "double precision", nullable: false),
-                    WorkDone = table.Column<double>(type: "double precision", nullable: false),
-                    WorkInProgress = table.Column<double>(type: "double precision", nullable: false)
+                    SkillsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CommunicationSkill = table.Column<double>(type: "float", nullable: false),
+                    BrokingSkill = table.Column<double>(type: "float", nullable: false),
+                    WorkDone = table.Column<double>(type: "float", nullable: false),
+                    WorkInProgress = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,21 +68,21 @@ namespace broker_service.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    FullName = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    Password = table.Column<string>(type: "text", nullable: true),
-                    Phone = table.Column<string>(type: "text", nullable: true),
-                    City = table.Column<string>(type: "text", nullable: true),
-                    Subcity = table.Column<string>(type: "text", nullable: true),
-                    Kebele = table.Column<string>(type: "text", nullable: true),
-                    Picture = table.Column<string>(type: "text", nullable: true),
-                    IdentificationCard = table.Column<string>(type: "text", nullable: true),
-                    Sex = table.Column<string>(type: "text", nullable: true),
-                    Role = table.Column<string>(type: "text", nullable: true),
-                    Latitude = table.Column<double>(type: "double precision", nullable: false),
-                    Longtiude = table.Column<double>(type: "double precision", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Subcity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Kebele = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IdentificationCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Sex = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longtiude = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,42 +93,44 @@ namespace broker_service.Migrations
                 name: "Brokers",
                 columns: table => new
                 {
-                    BrokerId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Approved = table.Column<bool>(type: "boolean", nullable: false),
-                    About = table.Column<string>(type: "text", nullable: true),
-                    SkillsId = table.Column<int>(type: "integer", nullable: true),
-                    CategoryId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
+                    BrokerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Approved = table.Column<bool>(type: "bit", nullable: false),
+                    About = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SkillsId = table.Column<int>(type: "int", nullable: true),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Brokers", x => x.BrokerId);
                     table.ForeignKey(
-                        name: "FK_Brokers_Categories_CategoryId",
+                        name: "FK_Brokers_Catigories_CategoryId",
                         column: x => x.CategoryId,
-                        principalTable: "Categories",
+                        principalTable: "Catigories",
                         principalColumn: "CategoryId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Brokers_Skills_SkillsId",
                         column: x => x.SkillsId,
                         principalTable: "Skills",
-                        principalColumn: "SkillsId");
+                        principalColumn: "SkillsId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Brokers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -142,19 +139,20 @@ namespace broker_service.Migrations
                         name: "FK_Customers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Portfolios",
                 columns: table => new
                 {
-                    PortfolioId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Image = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true),
-                    BrokerId = table.Column<int>(type: "integer", nullable: true)
+                    PortfolioId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrokerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -163,21 +161,22 @@ namespace broker_service.Migrations
                         name: "FK_Portfolios_Brokers_BrokerId",
                         column: x => x.BrokerId,
                         principalTable: "Brokers",
-                        principalColumn: "BrokerId");
+                        principalColumn: "BrokerId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Buys",
                 columns: table => new
                 {
-                    BuyId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Color = table.Column<string>(type: "text", nullable: true),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
-                    BrokerId = table.Column<int>(type: "integer", nullable: true),
-                    CustomerId = table.Column<int>(type: "integer", nullable: true),
-                    UserId = table.Column<int>(type: "integer", nullable: true)
+                    BuyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    BrokerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,34 +185,37 @@ namespace broker_service.Migrations
                         name: "FK_Buys_Brokers_BrokerId",
                         column: x => x.BrokerId,
                         principalTable: "Brokers",
-                        principalColumn: "BrokerId");
+                        principalColumn: "BrokerId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Buys_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId");
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Buys_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "UserId");
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Deals",
                 columns: table => new
                 {
-                    DealsId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    ProductName = table.Column<string>(type: "text", nullable: true),
-                    ProductModel = table.Column<string>(type: "text", nullable: true),
-                    Color = table.Column<string>(type: "text", nullable: true),
-                    PaymentOption = table.Column<string>(type: "text", nullable: true),
-                    DeliveryOption = table.Column<string>(type: "text", nullable: true),
-                    DealsStatus = table.Column<string>(type: "text", nullable: true),
-                    BrokerId = table.Column<int>(type: "integer", nullable: false),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    DealsId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductModel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PaymentOption = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeliveryOption = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DealsStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrokerId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -236,12 +238,12 @@ namespace broker_service.Migrations
                 name: "Deliveries",
                 columns: table => new
                 {
-                    DeliveryId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DeliveryStatus = table.Column<string>(type: "text", nullable: true),
-                    Location = table.Column<string>(type: "text", nullable: true),
-                    BrokerId = table.Column<int>(type: "integer", nullable: false),
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    DeliveryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DeliveryStatus = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BrokerId = table.Column<int>(type: "int", nullable: false),
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -264,11 +266,11 @@ namespace broker_service.Migrations
                 name: "Reviews",
                 columns: table => new
                 {
-                    ReviewId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    rate = table.Column<int>(type: "integer", nullable: false),
-                    BrokerId = table.Column<int>(type: "integer", nullable: true),
-                    CustomerId = table.Column<int>(type: "integer", nullable: true)
+                    ReviewId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    rate = table.Column<int>(type: "int", nullable: false),
+                    BrokerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -277,25 +279,27 @@ namespace broker_service.Migrations
                         name: "FK_Reviews_Brokers_BrokerId",
                         column: x => x.BrokerId,
                         principalTable: "Brokers",
-                        principalColumn: "BrokerId");
+                        principalColumn: "BrokerId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reviews_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId");
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Sales",
                 columns: table => new
                 {
-                    SalesId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    Color = table.Column<string>(type: "text", nullable: true),
-                    ProductId = table.Column<int>(type: "integer", nullable: false),
-                    BrokerId = table.Column<int>(type: "integer", nullable: true),
-                    CustomerId = table.Column<int>(type: "integer", nullable: true)
+                    SalesId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Color = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    BrokerId = table.Column<int>(type: "int", nullable: true),
+                    CustomerId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -304,12 +308,14 @@ namespace broker_service.Migrations
                         name: "FK_Sales_Brokers_BrokerId",
                         column: x => x.BrokerId,
                         principalTable: "Brokers",
-                        principalColumn: "BrokerId");
+                        principalColumn: "BrokerId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Sales_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId");
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -393,7 +399,6 @@ namespace broker_service.Migrations
                 column: "CustomerId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -427,7 +432,7 @@ namespace broker_service.Migrations
                 name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Catigories");
 
             migrationBuilder.DropTable(
                 name: "Skills");

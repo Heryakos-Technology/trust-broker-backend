@@ -17,7 +17,7 @@ namespace broker.Data
         public async Task<bool> DeleteData(Category catigory)
         {
               Console.WriteLine("Delete catogory method invoked");
-            _context.Categories.Remove(catigory);
+            _context.Catigories.Remove(catigory);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -30,13 +30,13 @@ namespace broker.Data
         public async Task<List<Category>> GetData()
         {   
             Console.WriteLine("Get  catogory method invoked");
-             var model = await _context.Categories.ToListAsync();
+             var model = await _context.Catigories.ToListAsync();
             return model;
         }
 
         public async Task<Category> GetDataById(int id)
         {
-            return await _context.Categories.FirstOrDefaultAsync(x => x.CategoryId== id);
+            return await _context.Catigories.FirstOrDefaultAsync(x => x.CategoryId== id);
         }
 
         public Task<List<Category>> GetPaginatedData(int pageNumber, int pageSize, string orderBy, string search)
@@ -53,7 +53,7 @@ namespace broker.Data
         {
             
             Console.WriteLine("Create catigory  data  method invoked");
-            _context.Categories.Add(catigory);
+            _context.Catigories.Add(catigory);
 
             await _context.SaveChangesAsync();
             return catigory;

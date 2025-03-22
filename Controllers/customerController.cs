@@ -20,8 +20,8 @@ namespace Controllers
     {
         private readonly IRepository<Customer> _customerRepository;
         private readonly IMapper _mapper;
-         private static IWebHostEnvironment _environment;
-        public CustomerController(IRepository<Customer> repo, IMapper mapper, IWebHostEnvironment environment)
+         private static IHostingEnvironment _environment;
+        public CustomerController(IRepository<Customer> repo, IMapper mapper, IHostingEnvironment environment)
         {
             _customerRepository = repo;
             _mapper = mapper;

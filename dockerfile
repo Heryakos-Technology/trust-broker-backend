@@ -1,19 +1,21 @@
-# Build stage
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build-env
+#Get base sdk Image from Microsoft
+
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 As build-env
 WORKDIR /app
 
-# Copy the csproj file and restore dependencies
-COPY broker-service.csproj ./
-RUN /usr/bin/dotnet restore broker-service.csproj
+#Copy the CSPROJ file and restore any dependencies (via NUGet)
 
-# Copy the project files and build the release
+COPY * .csproj ./
+RUN dotnet restore
+
+#copy the project files and build our release
+
 COPY . ./
-RUN /usr/bin/dotnet publish broker-service.csproj -c Release -o out
+RUN dotnet publish -c Release -o out
 
-# Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:9.0
+#Generate tuntime iamge
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
 EXPOSE 80
-ENV ASPNETCORE_URLS=http://*:80
 COPY --from=build-env /app/out .
-ENTRYPOINT ["dotnet", "broker-service.dll"]
+ENTRYPOINT [ "doetnet", "broker-service.dll" ]

@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using broker.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
 
 namespace broker.Data
 {
@@ -63,21 +61,9 @@ namespace broker.Data
         }
         
 
-//    public async Task<int> GetTotalPage(int pageSize,string search){
-//        return 0;
-//    }
-   public async Task<int> GetTotalPage(int pageSize, string search)
-{
-    // Calculate the total number of items that match the search criteria
-    var totalItems = await _context.Users
-                                    .Where(u => u.Phone.Contains(search))  // Assuming search filters by phone (you can modify this logic based on your needs)
-                                    .CountAsync();
-
-    // Calculate the total number of pages
-    var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
-
-    return totalPages;
-}
+   public async Task<int> GetTotalPage(int pageSize,string search){
+       return 0;
+   }
 
         public Task<List<User>> GetPaginatedData(int pageNumber, int pageSize, string orderBy, string search)
         {
