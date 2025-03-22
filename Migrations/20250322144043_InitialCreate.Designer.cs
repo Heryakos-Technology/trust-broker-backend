@@ -11,7 +11,7 @@ using broker.Data;
 namespace broker_service.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250318055949_InitialCreate")]
+    [Migration("20250322144043_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

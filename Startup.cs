@@ -16,6 +16,7 @@ using Azure.Storage.Blobs;
 using AzureBlob.Api.Logics;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using Npgsql;
 namespace broker_service
 {
     public class Startup
@@ -36,11 +37,45 @@ namespace broker_service
             //      o => o.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
 
             //     ));
-     var sqlConnectionString = Environment.GetEnvironmentVariable("DATABASE_URL")  ?? Configuration.GetConnectionString("PostgreSqlConnectionString");
-  
+     var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
+                Configuration.GetConnectionString("PostgreSqlConnectionString");
+
+// Handle both connection string formats
+if (string.IsNullOrEmpty(databaseUrl))
+{
+    throw new InvalidOperationException("No database connection string configured");
+}
+
+NpgsqlConnectionStringBuilder connectionBuilder;
+
+if (databaseUrl.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
+{
+    // Parse Render-style PostgreSQL URL
+    var uri = new Uri(databaseUrl);
+    var userInfo = uri.UserInfo.Split(':');
+
+    connectionBuilder = new NpgsqlConnectionStringBuilder
+    {
+        Host = uri.Host,
+        Port = uri.Port,
+        Username = userInfo[0],
+        Password = userInfo[1],
+        Database = uri.AbsolutePath.TrimStart('/'),
+        SslMode = SslMode.Require
+    };
+}
+else
+{
+    // Use direct connection string format
+    connectionBuilder = new NpgsqlConnectionStringBuilder(databaseUrl);
+}
+
+// Remove obsolete property warning
+var connectionString = connectionBuilder.ToString();
+
             services.AddDbContext<DataContext>(options => 
             {
-                options.UseNpgsql(sqlConnectionString)
+                options.UseNpgsql(connectionString)
                        .EnableSensitiveDataLogging()  // Enable sensitive data logging
                        .LogTo(Console.WriteLine, LogLevel.Information);
             });
@@ -122,61 +157,11 @@ namespace broker_service
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
-            lifetime.ApplicationStarted.Register(() =>
-{
-    try
-    {
-        using (var scope = app.ApplicationServices.CreateScope())
-        {
-            var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            using (var connection = context.Database.GetDbConnection())
+            using (var scope = app.ApplicationServices.CreateScope())
             {
-                connection.Open();
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var tableName = reader.GetString(0);
-                            Console.WriteLine($"Table: {tableName}");
-                            using (var sampleCommand = connection.CreateCommand())
-                            {
-                                sampleCommand.CommandText = $"SELECT * FROM {tableName} LIMIT 1";
-                                using (var sampleReader = sampleCommand.ExecuteReader())
-                                {
-                                    if (sampleReader.Read())
-                                    {
-                                        var values = new List<string>();
-                                        for (int i = 0; i < sampleReader.FieldCount; i++)
-                                        {
-                                            values.Add(sampleReader[i].ToString());
-                                        }
-                                        Console.WriteLine($"Sample row: {string.Join(", ", values)}");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("No data in this table");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+                context.Database.Migrate();
             }
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Error logging database tables: {ex.Message}");
-    }
-});
-            // using (var scope = app.ApplicationServices.CreateScope())
-            // {
-            //     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            //     context.Database.Migrate();
-            // }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
