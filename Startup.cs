@@ -172,11 +172,11 @@ namespace broker_service
         Console.WriteLine($"Error logging database tables: {ex.Message}");
     }
 });
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-                context.Database.Migrate();
-            }
+            // using (var scope = app.ApplicationServices.CreateScope())
+            // {
+            //     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+            //     context.Database.Migrate();
+            // }
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
