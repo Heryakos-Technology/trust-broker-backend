@@ -39,14 +39,14 @@ namespace Controllers
 
         private readonly IMapper _mapper;
         [Obsolete]
-        private static IWebHostEnvironment _environment;
+        private static IHostingEnvironment _environment;
 
         private List<User> registeredUsers;
         private readonly AppSettings _appSettings;
 
         // public static IHostingEnvironment Environment { get => _environment; set => _environment = value; }
                                  
-        public UserController(IRepository<User> repo, IMapper mapper, IOptions<AppSettings> appSettings, IWebHostEnvironment environment, IFileManagerLogic fileManagerLogic)
+        public UserController(IRepository<User> repo, IMapper mapper, IOptions<AppSettings> appSettings, IHostingEnvironment environment, IFileManagerLogic fileManagerLogic)
         {
             _userRepository = repo;
             _mapper = mapper;
@@ -140,7 +140,7 @@ namespace Controllers
         public async Task<IActionResult> CreateUser(UserDto userDto)
         {
             // Console.WriteLine("Creating Users");
-            var user = _mapper.Map<User>(userDto);
+            // var user = _mapper.Map<User>(userDto);
             //  Console.WriteLine("Entered to the image upload");
 
             // string fName = userDto.Picture.FileName;
@@ -152,7 +152,7 @@ namespace Controllers
             // }
             // // return file.FileName;
             // user.Picture=userDto.Picture.FileName;
-            await _userRepository.UpdateData(user);
+            // await _userRepository.UpdateData(user);
             return Ok(userDto);
         }
         //   [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
@@ -209,7 +209,7 @@ namespace Controllers
             using (var stream = new FileStream(path, FileMode.Create))
             { 
                 // await  _fileManagerLogic.Upload(file);
-                await file.CopyToAsync(stream);  
+                file.CopyTo(stream);  
             }
             
             // await _fileManagerLogic.Upload(file);
