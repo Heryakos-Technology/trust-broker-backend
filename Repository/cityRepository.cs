@@ -27,6 +27,11 @@ namespace broker.Data
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByPhone(string phone)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<City>> GetData()
         {   
             Console.WriteLine("Get  city method invoked");
@@ -64,6 +69,11 @@ namespace broker.Data
             _context.Update(city).Property(x => x.CityId).IsModified = false;
             await _context.SaveChangesAsync();
             return city;
+        }
+
+        Task<User> IRepository<City>.GetByEmail(string email)
+        {
+            throw new NotImplementedException();
         }
 
         Task<List<City>> IRepository<City>.GetPaginatedData(int pageNumber, int pageSize, string orderBy, string search)

@@ -27,6 +27,11 @@ namespace broker.Data
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByPhone(string phone)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Saving>> GetData()
         {   
             Console.WriteLine("Get  city method invoked");
@@ -66,7 +71,7 @@ namespace broker.Data
             return saving;
         }
 
-        Task<Saving> IRepository<Saving>.GetByEmail(string email)
+        Task<User> IRepository<Saving>.GetByEmail(string email)
         {
             throw new NotImplementedException();
         }

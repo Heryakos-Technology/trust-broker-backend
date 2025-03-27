@@ -135,10 +135,21 @@ namespace Controllers
             var model = await _userRepository.GetByEmail(email);
             return Ok(_mapper.Map<UserDto>(model));
         }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserDto userDto)
         {
+        var existingUserByPhone = await _userRepository.GetByPhone(userDto.Phone);
+            if (existingUserByPhone != null)
+            {
+                return BadRequest(new { message = "Phone number already registered" });
+            }
+        var existingUserByEmail = await _userRepository.GetByEmail(userDto.Email);
+            if (existingUserByEmail != null)
+            {
+                return BadRequest(new { message = "Email already registered" });
+            }
             // Console.WriteLine("Creating Users");
             var user = _mapper.Map<User>(userDto);
             //  Console.WriteLine("Entered to the image upload");

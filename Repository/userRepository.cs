@@ -42,10 +42,14 @@ namespace broker.Data
         {
             return await _context.Users .Include(e => e.Buys).FirstOrDefaultAsync(x => x.UserId == id);
         }
-
-        public async Task<User> GetByEmail(string phone)
+        public async Task<User> GetByPhone(string phone)
         {
-            return await _context.Users .Include(e => e.Buys).FirstOrDefaultAsync(x => x.Phone == phone);
+            return await _context.Users.Include(e => e.Buys).FirstOrDefaultAsync(u => u.Phone == phone);
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _context.Users .Include(e => e.Buys).FirstOrDefaultAsync(x => x.Email == email);
         }
 
         async Task<User> IRepository<User>.InsertData(User user)

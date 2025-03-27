@@ -37,13 +37,20 @@ namespace broker.Data
         builder.Entity<Customer>()
             .Property(c => c.CustomerId)
             .ValueGeneratedOnAdd(); 
+        builder.Entity<User>()
+            .HasIndex(u => u.Phone)
+            .IsUnique();
+        builder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
         }  
-  
+
         public override int SaveChanges()  
         {  
             ChangeTracker.DetectChanges();  
             return base.SaveChanges();  
         }
+        
     }
 }
 

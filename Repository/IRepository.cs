@@ -14,6 +14,7 @@ namespace broker.Data
         Task<bool> DeleteData(T service);
         Task<List<T>> GetPaginatedData(int pageNumber, int pageSize,string orderBy,string search);
         Task<int> GetTotalPage(int pageSize,string search);
-        Task<T> GetByEmail(string email);
+        Task<User> GetByEmail(string email);
+        Task<User> GetByPhone(string phone);
     }
 }

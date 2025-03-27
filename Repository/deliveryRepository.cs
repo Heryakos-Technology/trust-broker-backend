@@ -40,6 +40,11 @@ namespace broker.Data
             return data.FirstOrDefault(x => x.DeliveryStatus == email);
         }
 
+        public Task<User> GetByPhone(string phone)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Delivery>> GetData()
         {
             Console.WriteLine("Get  Delivery  method invoked");
@@ -93,6 +98,11 @@ namespace broker.Data
             _context.Update(delivery).Property(x => x.DeliveryId).IsModified = false;
             await _context.SaveChangesAsync();
             return delivery;
+        }
+
+        Task<User> IRepository<Delivery>.GetByEmail(string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }
