@@ -39,7 +39,7 @@ namespace Controllers
             var model = await _cityRepository.GetDataById(id);
             return Ok(_mapper.Map<CityDto>(model));
         }
-        //  [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateCities(CityDto cityDto)
         {   
@@ -48,7 +48,7 @@ namespace Controllers
             await _cityRepository.UpdateData(city);
             return Ok(cityDto);
         }
-        // [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCities(int id)
         {
@@ -59,7 +59,7 @@ namespace Controllers
 
             return Ok(model);
         }
-        //   [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCities(int id, CityDto cityDto)
         {
