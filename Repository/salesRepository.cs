@@ -27,6 +27,11 @@ namespace broker.Data
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByPhone(string phone)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Sales>> GetData()
         {
             Console.WriteLine("Get  Sales method invoked");
@@ -64,6 +69,11 @@ namespace broker.Data
             _context.Update(sales).Property(x => x.SalesId).IsModified = false;
             await _context.SaveChangesAsync();
             return sales;
+        }
+
+        Task<User> IRepository<Sales>.GetByEmail(string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }

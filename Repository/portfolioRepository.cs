@@ -27,6 +27,11 @@ namespace broker.Data
             throw new NotImplementedException();
         }
 
+        public Task<User> GetByPhone(string phone)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Portfolio>> GetData()
         {
              Console.WriteLine("Get  portfolio  method invoked");
@@ -63,6 +68,11 @@ namespace broker.Data
           _context.Update(portfolio).Property(x => x.PortfolioId).IsModified = false;
             await _context.SaveChangesAsync();
             return portfolio;
+        }
+
+        Task<User> IRepository<Portfolio>.GetByEmail(string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }

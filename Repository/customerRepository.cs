@@ -54,6 +54,11 @@ namespace broker.Data
 
         }
 
+        public Task<User> GetByPhone(string phone)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<List<Customer>> GetData()
         {
             //   var model = await _context.Brokers.ToListAsync();
@@ -134,5 +139,9 @@ namespace broker.Data
              return customer;
         }
 
+        Task<User> IRepository<Customer>.GetByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
