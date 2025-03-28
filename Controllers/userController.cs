@@ -82,10 +82,10 @@ namespace Controllers
             // getUsers();
             Console.WriteLine("Authentication Method");
             List<User> users = await _userRepository.GetData();
-            var user = users.SingleOrDefault(x => x.Phone == model.Phone && x.Password == model.Password);
+            var user = users.SingleOrDefault(x => x.Phone == model.Phone);
         
             // return null if user not found
-            if (user == null)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
                 return BadRequest(new { message = "Username or password is incorrect" });
 
             // authentication successful so generate jwt token
@@ -184,7 +184,9 @@ namespace Controllers
             // }
             // // return file.FileName;
             // user.Picture=userDto.Picture.FileName;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
             await _userRepository.UpdateData(user);
+
             return Ok(userDto);
         }
         //   [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
