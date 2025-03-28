@@ -110,6 +110,27 @@ namespace Controllers
             userEntity.Token = tokenHandler.WriteToken(token);
             return Ok(userEntity);
         }
+
+            [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+            [HttpGet("me")]
+            public async Task<IActionResult> GetCurrentUser()
+            {
+                // Get the user ID from the JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                {
+                    return Unauthorized(new { message = "Invalid token" });
+                }
+
+                Console.WriteLine("Returning user with id " + userId);
+                var model = await _userRepository.GetDataById(userId);
+                
+                if (model == null)
+                    return NotFound(new { message = "User not found" });
+
+                return Ok(_mapper.Map<UserDto>(model));
+            }
+
         // [Authorize(Roles = "Customer")]
         // [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Customer")]
         //    [AllowAnonymous]
