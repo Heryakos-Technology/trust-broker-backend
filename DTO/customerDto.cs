@@ -8,9 +8,6 @@ namespace broker.Dto
 {
     public class CustomerDto
     {
-
-
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustomerId { get; set; }
@@ -21,22 +18,8 @@ namespace broker.Dto
         public ICollection<Sales> Sales { get; set; }
 
         // Navigational properties
-
+        [Required(ErrorMessage = "User information is required")]
         public User User { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

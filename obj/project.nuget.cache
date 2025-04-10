@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5GUInVNtS4w=",
+  "dgSpecHash": "v5LkWvUBoAo=",
   "success": true,
   "projectFilePath": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "/home/natnaels/.nuget/packages/azure.core/1.44.1/azure.core.1.44.1.nupkg.sha512",
     "/home/natnaels/.nuget/packages/azure.storage.blobs/12.24.0/azure.storage.blobs.12.24.0.nupkg.sha512",
     "/home/natnaels/.nuget/packages/azure.storage.common/12.23.0/azure.storage.common.12.23.0.nupkg.sha512",
+    "/home/natnaels/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
     "/home/natnaels/.nuget/packages/google.apis/1.69.0/google.apis.1.69.0.nupkg.sha512",
     "/home/natnaels/.nuget/packages/google.apis.auth/1.69.0/google.apis.auth.1.69.0.nupkg.sha512",
     "/home/natnaels/.nuget/packages/google.apis.core/1.69.0/google.apis.core.1.69.0.nupkg.sha512",

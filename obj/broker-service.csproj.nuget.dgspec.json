@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[12.24.0, )"
             },
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Google.Apis.Drive.v2": {
               "target": "Package",
               "version": "[1.69.0.3699, )"

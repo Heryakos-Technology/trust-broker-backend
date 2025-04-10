@@ -10,7 +10,9 @@ using broker.Dto;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.AspNetCore.Cryptography.KeyDerivation; // For PBKDF2
+using System.Security.Cryptography; // For salt generation
+// using BCrypt.Net; 
 namespace Controllers
 {   
     //   [Authorize]
@@ -19,13 +21,16 @@ namespace Controllers
     public class CustomerController : ControllerBase
     {
         private readonly IRepository<Customer> _customerRepository;
+        private readonly IRepository<User> _userRepository;
+
         private readonly IMapper _mapper;
          private static IWebHostEnvironment _environment;
-        public CustomerController(IRepository<Customer> repo, IMapper mapper, IWebHostEnvironment environment)
+        public CustomerController(IRepository<Customer> repo,  IRepository<User> userRepo, IMapper mapper, IWebHostEnvironment environment)
         {
             _customerRepository = repo;
             _mapper = mapper;
             _environment=environment;
+            _userRepository = userRepo;
         }
         [HttpGet]
         public async Task<IActionResult> GetCustomers()
@@ -53,8 +58,21 @@ namespace Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCustomer(CustomerDto  customerDto)
         {
+            var existingUserByEmail = await _userRepository.GetByEmail(customerDto.User.Email);
+            if (existingUserByEmail != null)
+            {
+                return BadRequest(new { message = "Email is already registered" });
+            }
+
+            // Check if the phone is already registered
+            var existingUserByPhone = await _userRepository.GetByPhone(customerDto.User.Phone);
+            if (existingUserByPhone != null)
+            {
+                return BadRequest(new { message = "Phone number is already registered" });
+            }
             Console.WriteLine("Creating customers");
             var customer = _mapper.Map<Customer>(customerDto);
+            customer.User.Password = BCrypt.Net.BCrypt.HashPassword(customerDto.User.Password);
             Console.WriteLine("Creating Users");
             // var user = _mapper.Map<User>(userDto);
             //  Console.WriteLine("Entered tot he image upload");
@@ -68,7 +86,7 @@ namespace Controllers
             // }
             // // return file.FileName;
             // customer.User.Picture=customerDto.User.Picture.FileName;
-            await _customerRepository.UpdateData(customer);
+            await _customerRepository.InsertData(customer);
             return Ok(customerDto);
         }
         // [Authorize(Roles = RoleEntity.Admin)]
