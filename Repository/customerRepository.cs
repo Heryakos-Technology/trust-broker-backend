@@ -54,9 +54,10 @@ namespace broker.Data
 
         }
 
-        public Task<User> GetByPhone(string phone)
+        public async Task<User> GetByPhone(string phone)
         {
-            throw new NotImplementedException();
+             return await _context.Users
+                .FirstOrDefaultAsync(u => u.Phone == phone);
         }
 
         public async Task<List<Customer>> GetData()
