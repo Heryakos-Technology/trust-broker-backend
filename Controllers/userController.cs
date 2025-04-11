@@ -149,13 +149,15 @@ namespace Controllers
         //     return Ok(_mapper.Map<UserDto>(model));
         // }
 
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUserByEmail(string  email)
-        {
-            Console.WriteLine("Returning job of id" + email);
-            var model = await _userRepository.GetByEmail(email);
-            return Ok(_mapper.Map<UserDto>(model));
-        }
+
+        //TODO Get by Email
+        // [HttpGet("{email}")]
+        // public async Task<IActionResult> GetUserByEmail(string  email)
+        // {
+        //     Console.WriteLine("Returning job of id" + email);
+        //     var model = await _userRepository.GetByEmail(email);
+        //     return Ok(_mapper.Map<UserDto>(model));
+        // }
 
         [AllowAnonymous]
         [HttpPost]

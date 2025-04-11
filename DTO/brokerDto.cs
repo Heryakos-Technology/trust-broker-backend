@@ -26,7 +26,7 @@ namespace broker.Dto
         public string About { get; set; }
 
         // navigational properties
-
+        [Required(ErrorMessage = "User information is required")]
         public User User { get; set; }
 
 
