@@ -91,7 +91,7 @@ namespace broker.Data
               .AsSingleQuery()
              .ToListAsync();
 
-            return data.FirstOrDefault(x => x.BrokerId == id);
+            return data.FirstOrDefault(x => x.User.UserId == id);
              
         }
 
