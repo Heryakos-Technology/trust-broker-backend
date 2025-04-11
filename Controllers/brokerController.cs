@@ -19,12 +19,16 @@ namespace Controllers
     public class BrokerController : ControllerBase
     {
         private readonly IRepository<Broker> _brokerRepository;
+        private readonly IRepository<User> _userRepository;
+        
         private readonly IMapper _mapper;
-        public BrokerController(IRepository<Broker> repo, IMapper mapper)
+        public BrokerController(IRepository<Broker> repo, IRepository<User> userRepo, IMapper mapper)
         {   
 
             _brokerRepository = repo;
             _mapper = mapper;
+            _userRepository = userRepo;
+
         }
         //   [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Customer,Admin")]
         [HttpGet]
@@ -46,8 +50,22 @@ namespace Controllers
         [HttpPost]
         public async Task<IActionResult> CreateBroker(BrokerDto brokerDto)
         {
+              var existingUserByEmail = await _userRepository.GetByEmail(brokerDto.User.Email);
+            if (existingUserByEmail != null)
+            {
+                return BadRequest(new { message = "Email is already registered" });
+            }
+
+            // Check if the phone is already registered
+            var existingUserByPhone = await _userRepository.GetByPhone(brokerDto.User.Phone);
+            if (existingUserByPhone != null)
+            {
+                return BadRequest(new { message = "Phone number is already registered" });
+            }
             Console.WriteLine("Creating brokers");
+
             var Broker = _mapper.Map<Broker>(brokerDto);
+            Broker.User.Password = BCrypt.Net.BCrypt.HashPassword(brokerDto.User.Password);
             await _brokerRepository.InsertData(Broker);
             return Ok(brokerDto);
         }
