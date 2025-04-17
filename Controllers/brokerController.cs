@@ -18,11 +18,11 @@ namespace Controllers
      [Route("api/brokers")]
     public class BrokerController : ControllerBase
     {
-        private readonly IRepository<Broker> _brokerRepository;
+        private readonly IBrokerRepository _brokerRepository;
         private readonly IRepository<User> _userRepository;
         
         private readonly IMapper _mapper;
-        public BrokerController(IRepository<Broker> repo, IRepository<User> userRepo, IMapper mapper)
+        public BrokerController(IBrokerRepository repo, IRepository<User> userRepo, IMapper mapper)
         {   
 
             _brokerRepository = repo;
@@ -43,7 +43,7 @@ namespace Controllers
         public async Task<IActionResult> GetBrokerById(string email)
         {
             Console.WriteLine("Returning technician of id" + email);
-            var model = await _brokerRepository.GetByEmail(email);
+            var model = await _brokerRepository.GetBrokerByEmailAsync(email);
             return Ok(_mapper.Map<BrokerDto>(model));
         }
         

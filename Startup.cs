@@ -143,7 +143,7 @@ if (string.IsNullOrEmpty(connectionString) || !connectionString.Contains("Host="
             });
 
             services.AddScoped<IFileManagerLogic, FileManagerLogic>();
-            services.AddScoped<IRepository<Broker>, BrokerRepository>();
+            services.AddScoped<IBrokerRepository, BrokerRepository>(); 
             services.AddScoped<IRepository<User>, UserRepository>();
             services.AddScoped<IRepository<Category>, CategoryRepository>();
             services.AddScoped<IRepository<Skills>, SkillsRepository>();

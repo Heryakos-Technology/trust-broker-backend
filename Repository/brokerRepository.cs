@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace broker.Data
 {
-    public class BrokerRepository : IRepository<Broker>
+    public class BrokerRepository : IBrokerRepository
     {
         private readonly DataContext _context;
 
@@ -32,7 +32,7 @@ namespace broker.Data
             return true;
         }
 
-        public async Task<Broker> GetByEmail(string phone)
+        public async Task<Broker> GetByEmail(string email)
         {
              // FirstOrDefaultAsync(x => x.BrokerId == id);
              var data = await _context.Brokers
@@ -45,9 +45,23 @@ namespace broker.Data
              .Include(e => e.Delivery).ThenInclude(e=>e.Customer).ThenInclude(e=>e.User)
              .ToListAsync();
 
-            return data.FirstOrDefault(x => x.User.Phone.Contains(phone));
+            return data.FirstOrDefault(x => x.User.Email.Contains(email));
 
             
+        }
+        public async Task<Broker> GetBrokerByEmailAsync(string email) 
+        {
+            // Efficiently query the database
+            return await _context.Brokers
+                .Include(b => b.User) // Essential include
+                .Include(b => b.Portfolio)
+                .Include(b => b.Review)
+                .Include(b => b.Category)
+                .Include(b => b.Deals).ThenInclude(d => d.Customer).ThenInclude(c => c.User)
+                .Include(b => b.Skills)
+                .Include(b => b.Delivery).ThenInclude(d => d.Customer).ThenInclude(c => c.User)
+                // Use == for exact match, consider case-insensitivity if needed
+                .FirstOrDefaultAsync(b => b.User.Email == email); 
         }
 
         public Task<User> GetByPhone(string phone)
@@ -152,9 +166,20 @@ namespace broker.Data
             return service;
         }
 
-        Task<User> IRepository<Broker>.GetByEmail(string email)
+        async Task<User> IRepository<Broker>.GetByEmail(string email)
         {
-            throw new NotImplementedException();
+               var data = await _context.Brokers
+             .Include(e => e.User)
+             .Include(e => e.Portfolio)
+             .Include(e => e.Review)
+             .Include(e=>e.Category)
+             .Include(e => e.Deals).ThenInclude(e=>e.Customer).ThenInclude(e=>e.User)
+              .Include(e => e.Skills)
+             .Include(e => e.Delivery).ThenInclude(e=>e.Customer).ThenInclude(e=>e.User)
+             .ToListAsync();
+            Console.WriteLine("Data: ", data);
+            return data.FirstOrDefault(x => x.User.Email.Contains(email))?.User;
+
         }
     }
 }
