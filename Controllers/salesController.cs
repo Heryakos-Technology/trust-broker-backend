@@ -8,10 +8,11 @@ using broker.Models;
 using AutoMapper;
 using broker.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Controllers
 {   
-      [Authorize]
+    [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/sales")]
     [ApiController]
     public class SalesController : ControllerBase
