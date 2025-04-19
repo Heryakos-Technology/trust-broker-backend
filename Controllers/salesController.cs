@@ -8,19 +8,27 @@ using broker.Models;
 using AutoMapper;
 using broker.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
+using System.Linq;
 
 namespace Controllers
 {   
-      [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/sales")]
     [ApiController]
     public class SalesController : ControllerBase
     {
         private readonly IRepository<Sales> _salesRepository;
+        private readonly IRepository<Broker> _brokerRepository;
+        private readonly IRepository<Customer> _customerRepository;
         private readonly IMapper _mapper;
-        public SalesController(IRepository<Sales> repo, IMapper mapper)
+        public SalesController(IRepository<Sales> repo,   IRepository<Broker> brokerRepo, 
+            IRepository<Customer> customerRepo, IMapper mapper)
         {
             _salesRepository = repo;
+            _brokerRepository = brokerRepo;
+            _customerRepository = customerRepo;
             _mapper = mapper;
         } 
         [HttpGet]
@@ -62,6 +70,76 @@ namespace Controllers
             var sales = _mapper.Map<Sales>(salesDto);
             await _salesRepository.UpdateData(sales);
             return Ok(sales);
+        }
+
+        [HttpGet("customer")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Customer")]
+        public async Task<IActionResult> GetCustomerSales()
+        {
+            try
+            {
+                // Get UserId from JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                {
+                    Console.WriteLine("Invalid or missing UserId claim in token.");
+                    return Unauthorized("Invalid token.");
+                }
+
+                var roleClaim = User.FindFirst(ClaimTypes.Role)?.Value;
+                Console.WriteLine($"Token UserId: {userId}, Role: {roleClaim}");
+
+                // Find the Customer by UserId
+                var customer = await _customerRepository.GetDataById(userId);
+                if (customer == null)
+                    return NotFound("Customer profile not found for this user.");
+
+                // Get sales for the Customer
+                var sales = await _salesRepository.GetData();
+                var customerSales = sales.Where(s => s.CustomerId == customer.CustomerId);
+
+                if (!customerSales.Any())
+                    return NotFound("No sales found for this customer.");
+
+                return Ok(_mapper.Map<IEnumerable<SalesDto>>(customerSales));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving customer sales: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving customer sales.");
+            }
+        }
+
+        [HttpGet("broker")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Broker")]
+        public async Task<IActionResult> GetBrokerSales()
+        {
+            try
+            {
+                // Get UserId from JWT token
+                var userIdClaim = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int userId))
+                    return Unauthorized("Invalid token.");
+
+                // Find the Broker by UserId
+                var broker = await _brokerRepository.GetDataById(userId);
+                if (broker == null)
+                    return NotFound("Broker profile not found for this user.");
+
+                // Get sales for the Broker
+                var sales = await _salesRepository.GetData();
+                var brokerSales = sales.Where(s => s.BrokerId == broker.BrokerId);
+
+                if (!brokerSales.Any())
+                    return NotFound("No sales found for this broker.");
+
+                return Ok(_mapper.Map<IEnumerable<SalesDto>>(brokerSales));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving broker sales: {ex.Message}");
+                return StatusCode(500, "An error occurred while retrieving broker sales.");
+            }
         }
         //   public async Task<IActionResult> GetPaginatedBrokers(int pageNumber,int pageSize, string orderBy,string search)
         // {   

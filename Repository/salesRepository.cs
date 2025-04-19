@@ -35,7 +35,10 @@ namespace broker.Data
         public async Task<List<Sales>> GetData()
         {
             Console.WriteLine("Get  Sales method invoked");
-             var model = await _context.Sales.ToListAsync();
+             var model = await _context.Sales
+             .Include(sales => sales.Broker).ThenInclude(broker => broker.User)
+             .Include(sales => sales.Customer).ThenInclude(customer => customer.User)
+             .ToListAsync();
             return model;
         }
 
