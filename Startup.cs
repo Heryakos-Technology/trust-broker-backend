@@ -150,7 +150,7 @@ if (string.IsNullOrEmpty(connectionString) || !connectionString.Contains("Host="
             services.AddScoped<IRepository<Portfolio>, PortfolioRepository>();
             services.AddScoped<IRepository<Delivery>, DeliveryRepository>();
             services.AddScoped<IRepository<Deals>, DealsRepository>();
-            services.AddScoped<IRepository<Review>, ViewRepository>();
+            services.AddScoped<IRepository<Review>, ReviewRepository>();
             services.AddScoped<IRepository<Customer>, CustomerRepository>();
             services.AddScoped<IRepository<Sales>, SalesRepository>();
             services.AddScoped<IRepository<Buy>, BuyRepository>();

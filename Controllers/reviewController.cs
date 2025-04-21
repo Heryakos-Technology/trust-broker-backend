@@ -8,17 +8,18 @@ using broker.Models;
 using AutoMapper;
 using broker.Dto;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Controllers
 {   
-      [Authorize]
-    [Route("api/views")]
+    [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme)]
+    [Route("api/reviews")]
     [ApiController]
-    public class ViewsController : ControllerBase
+    public class ReviewController : ControllerBase
     {
         private readonly IRepository<Review> _viewsRepository;
         private readonly IMapper _mapper;
-        public ViewsController(IRepository<Review> repo, IMapper mapper)
+        public ReviewController(IRepository<Review> repo, IMapper mapper)
         {
             _viewsRepository = repo;
             _mapper = mapper;
