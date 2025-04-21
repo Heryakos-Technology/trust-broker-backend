@@ -11,7 +11,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation; // For PBKDF2
-using System.Security.Cryptography; // For salt generation
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authentication.JwtBearer; // For salt generation
 // using BCrypt.Net; 
 namespace Controllers
 {   
@@ -32,6 +33,7 @@ namespace Controllers
             _environment=environment;
             _userRepository = userRepo;
         }
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Broker, Admin")]
         [HttpGet]
         public async Task<IActionResult> GetCustomers()
         {
@@ -47,6 +49,7 @@ namespace Controllers
         //     return Ok(_mapper.Map<CustomerDto>(model));
         // }
         // get customers by email
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Broker, Admin")]
         [HttpGet("{phone}")]
         public async Task<IActionResult> GetCustomerByPhone(string phone)
         {
@@ -89,6 +92,7 @@ namespace Controllers
             await _customerRepository.InsertData(customer);
             return Ok(customerDto);
         }
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin")]
         // [Authorize(Roles = RoleEntity.Admin)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
@@ -98,7 +102,7 @@ namespace Controllers
             await _customerRepository.DeleteData(customer);
             return Ok(model);
         }
-        
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Admin, Customer")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(int id, CustomerDto  customerDto)
         {
