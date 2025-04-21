@@ -126,6 +126,7 @@ namespace broker.Data
         public async Task<Customer> InsertData(Customer customer)
         {
               Console.WriteLine("Create data  method invoked");
+            customer.User.Role = "Customer"; 
             _context.Customers.Add(customer);
 
             await _context.SaveChangesAsync();
