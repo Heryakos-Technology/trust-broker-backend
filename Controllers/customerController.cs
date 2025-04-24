@@ -94,6 +94,10 @@ namespace Controllers
         public async Task<IActionResult> DeleteCustomer(int id)
         {
             var model = await _customerRepository.GetDataById(id);
+              if (model == null)
+            {
+                return NotFound(new { message = "Customer not found" });
+            }
             var customer = _mapper.Map<Customer>(model);
             await _customerRepository.DeleteData(customer);
             return Ok(model);
