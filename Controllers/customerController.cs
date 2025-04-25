@@ -20,12 +20,12 @@ namespace Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly IRepository<User> _userRepository;
 
         private readonly IMapper _mapper;
          private static IWebHostEnvironment _environment;
-        public CustomerController(IRepository<Customer> repo,  IRepository<User> userRepo, IMapper mapper, IWebHostEnvironment environment)
+        public CustomerController(ICustomerRepository repo,  IRepository<User> userRepo, IMapper mapper, IWebHostEnvironment environment)
         {
             _customerRepository = repo;
             _mapper = mapper;
@@ -47,11 +47,11 @@ namespace Controllers
         //     return Ok(_mapper.Map<CustomerDto>(model));
         // }
         // get customers by email
-        [HttpGet("{phone}")]
-        public async Task<IActionResult> GetCustomerByPhone(string phone)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetCustomerByEmail(string email)
         {
-            Console.WriteLine("Returning customer of email" + phone);
-            var model = await _customerRepository.GetByEmail(phone);
+            Console.WriteLine("Returning customer of email" + email);
+            var model = await _customerRepository.GetCustomerByEmailAsync(email);
             return Ok(_mapper.Map<CustomerDto>(model));
         }
 

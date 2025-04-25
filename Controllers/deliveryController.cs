@@ -21,12 +21,12 @@ namespace Controllers
     public class DeliveryController : ControllerBase
     {
         private readonly IRepository<Delivery> _deliveryRepository;
-        private readonly IRepository<Broker> _brokerRepository;
-        private readonly IRepository<Customer> _customerRepository;
+        private readonly IBrokerRepository _brokerRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly IRepository<User> _userRepository;
         private readonly IMapper _mapper;
-        public DeliveryController(IRepository<Delivery> repo,IRepository<Broker> brokerRepo,
-            IRepository<Customer> customerRepo, IRepository<User> userRepo,IMapper mapper)
+        public DeliveryController(IRepository<Delivery> repo,IBrokerRepository brokerRepo,
+            ICustomerRepository customerRepo, IRepository<User> userRepo,IMapper mapper)
         {
             _deliveryRepository = repo;
             _brokerRepository = brokerRepo;
