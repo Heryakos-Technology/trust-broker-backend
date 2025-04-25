@@ -20,11 +20,11 @@ namespace Controllers
     public class DealsController : ControllerBase
     {
         private readonly IRepository<Deals> _dealsRepository;
-          private readonly IRepository<Broker> _brokerRepository;
-        private readonly IRepository<Customer> _customerRepository;
+          private readonly IBrokerRepository _brokerRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
-        public DealsController(IRepository<Deals> repo, IRepository<Broker> brokerRepo,
-            IRepository<Customer> customerRepo, IMapper mapper)
+        public DealsController(IRepository<Deals> repo, IBrokerRepository brokerRepo,
+            ICustomerRepository customerRepo, IMapper mapper)
         {
             _dealsRepository = repo;
             _brokerRepository = brokerRepo;
