@@ -17,7 +17,7 @@ namespace broker.Data
 
         public async Task<bool> DeleteData(Customer customer)
         {
-           Console.WriteLine("Delete method invoked");
+           Console.WriteLine($"Delete method invoked User: {customer.User}");
             _context.Users.Remove(customer.User);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
@@ -106,7 +106,7 @@ namespace broker.Data
              
              .ToListAsync();
 
-            return data.FirstOrDefault(x => x.User.UserId == id);
+            return data.FirstOrDefault(x => x.CustomerId == id);
              
         }
 
