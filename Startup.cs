@@ -150,8 +150,8 @@ if (string.IsNullOrEmpty(connectionString) || !connectionString.Contains("Host="
             services.AddScoped<IRepository<Portfolio>, PortfolioRepository>();
             services.AddScoped<IRepository<Delivery>, DeliveryRepository>();
             services.AddScoped<IRepository<Deals>, DealsRepository>();
-            services.AddScoped<IRepository<Review>, ViewRepository>();
-            services.AddScoped<IRepository<Customer>, CustomerRepository>();
+            services.AddScoped<IRepository<Review>, ReviewRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IRepository<Sales>, SalesRepository>();
             services.AddScoped<IRepository<Buy>, BuyRepository>();
             services.AddScoped<IRepository<City>, CityRepository>();
@@ -175,6 +175,7 @@ if (string.IsNullOrEmpty(connectionString) || !connectionString.Contains("Host="
             }
             app.UseStaticFiles();
             // app.UseHttpsRedirection();
+            app.UseCors("allowedOrigin");
 
             app.UseRouting();
             app.UseHealthChecks("/health");

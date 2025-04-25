@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace broker.Data
 {
-    public class CustomerRepository : IRepository<Customer>
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly DataContext _context;
         public CustomerRepository(DataContext context)
@@ -17,13 +17,25 @@ namespace broker.Data
 
         public async Task<bool> DeleteData(Customer customer)
         {
-           Console.WriteLine("Delete method invoked");
+           Console.WriteLine($"Delete method invoked User: {customer.User}");
             _context.Users.Remove(customer.User);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
             return true;
         }
 
+         public async Task<Customer> GetCustomerByEmailAsync(string email) 
+        {
+            // Efficiently query the database
+            return await _context.Customers
+                .Include(b => b.User) // Essential include
+                .Include(b => b.Reviews)
+                // .Include(b => b.Deals).ThenInclude(d => d.Customer).ThenInclude(c => c.User)
+                // .Include(b => b.Delivery).ThenInclude(d => d.Customer).ThenInclude(c => c.User)
+                // Use == for exact match, consider case-insensitivity if needed
+                .FirstOrDefaultAsync(b => b.User.Email == email); 
+        }
+        
         public async Task<Customer> GetByEmail(string phone) 
         {
              // FirstOrDefaultAsync(x => x.BrokerId == id);
@@ -94,7 +106,7 @@ namespace broker.Data
              
              .ToListAsync();
 
-            return data.FirstOrDefault(x => x.User.UserId == id);
+            return data.FirstOrDefault(x => x.CustomerId == id);
              
         }
 

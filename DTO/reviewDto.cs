@@ -15,7 +15,12 @@ namespace broker.Dto
         public int rate { get; set; }
 
 
-     
+        public int BrokerId { get; set; } 
+       
+        public Broker Broker { get; set; }
+        public int CustomerId { get; set; }
+        
+        public Customer Customer { get; set; }
 
 
 

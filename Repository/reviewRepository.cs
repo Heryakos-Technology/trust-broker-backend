@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace broker.Data
 {
-    public class ViewRepository : IRepository<Review>
+    public class ReviewRepository : IRepository<Review>
     {
         private readonly DataContext _context;
-        public ViewRepository(DataContext context)
+        public ReviewRepository(DataContext context)
         {
             _context = context;
         }
@@ -35,7 +35,10 @@ namespace broker.Data
         public async Task<List<Review>> GetData()
         {
              Console.WriteLine("Get  review   method invoked");
-             var model = await _context.Reviews.ToListAsync();
+             var model = await _context.Reviews
+             .Include(deals => deals.Broker).ThenInclude(broker => broker.User)
+             .Include(deals => deals.Customer).ThenInclude(customer => customer.User)
+             .ToListAsync();
             return model;
         }
 
