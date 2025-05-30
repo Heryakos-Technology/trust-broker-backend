@@ -17,6 +17,7 @@ using AzureBlob.Api.Logics;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Npgsql;
+using System.Linq;
 namespace broker_service
 {
     public class Startup
@@ -162,11 +163,24 @@ if (string.IsNullOrEmpty(connectionString) || !connectionString.Contains("Host="
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
         {
-            // using (var scope = app.ApplicationServices.CreateScope())
-            // {
-            //     var context = scope.ServiceProvider.GetRequiredService<DataContext>();
-            //     context.Database.Migrate();
-            // }
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<DataContext>();
+                context.Database.Migrate();
+                try
+{
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+        Console.WriteLine("Applied pending migrations");
+    }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Migration error: {ex.Message}");
+        // Add more specific error handling if needed
+    }
+            }    
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

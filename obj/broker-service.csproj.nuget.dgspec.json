@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj": {}
+    "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj": {}
   },
   "projects": {
-    "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj": {
+    "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj",
+        "projectUniqueName": "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj",
         "projectName": "broker-service",
-        "projectPath": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj",
-        "packagesPath": "/home/natnaels/.nuget/packages/",
-        "outputPath": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/obj/",
+        "projectPath": "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj",
+        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+        "outputPath": "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/natnaels/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -144,7 +144,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
