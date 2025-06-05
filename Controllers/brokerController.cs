@@ -11,19 +11,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Controllers
-{   
+{
     // [Authorize]
-   
+
     [ApiController]
-     [Route("api/brokers")]
+    [Route("api/brokers")]
     public class BrokerController : ControllerBase
     {
         private readonly IBrokerRepository _brokerRepository;
         private readonly IRepository<User> _userRepository;
-        
+
         private readonly IMapper _mapper;
         public BrokerController(IBrokerRepository repo, IRepository<User> userRepo, IMapper mapper)
-        {   
+        {
 
             _brokerRepository = repo;
             _mapper = mapper;
@@ -33,7 +33,7 @@ namespace Controllers
         //   [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme,Roles = "Customer,Admin")]
         [HttpGet]
         public async Task<IActionResult> GetBrokers()
-        {   
+        {
             Console.WriteLine("Get Brokers Method invocked");
             var model = await _brokerRepository.GetData();
             return Ok(_mapper.Map<IEnumerable<BrokerDto>>(model));
@@ -46,11 +46,11 @@ namespace Controllers
             var model = await _brokerRepository.GetBrokerByEmailAsync(email);
             return Ok(_mapper.Map<BrokerDto>(model));
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> CreateBroker(BrokerDto brokerDto)
         {
-              var existingUserByEmail = await _userRepository.GetByEmail(brokerDto.User.Email);
+            var existingUserByEmail = await _userRepository.GetByEmail(brokerDto.User.Email);
             if (existingUserByEmail != null)
             {
                 return BadRequest(new { message = "Email is already registered" });
@@ -86,20 +86,29 @@ namespace Controllers
             await _brokerRepository.UpdateData(Broker);
             return Ok(Broker);
         }
-          public async Task<IActionResult> GetPaginatedBrokers(int pageNumber,int pageSize, string orderBy,string search)
-        {   
+        public async Task<IActionResult> GetPaginatedBrokers(int pageNumber, int pageSize, string orderBy, string search)
+        {
             // ServiceRepository _service= new ServiceRepository();
-             Console.WriteLine("These are the comming constriant");
-             Console.WriteLine(pageNumber);
-             Console.WriteLine(orderBy);
-             Console.WriteLine(search);
-       
-           var model = await _brokerRepository.GetPaginatedData(pageNumber,pageSize,orderBy,search);
+            Console.WriteLine("These are the comming constriant");
+            Console.WriteLine(pageNumber);
+            Console.WriteLine(orderBy);
+            Console.WriteLine(search);
 
-        var totalPage= await _brokerRepository.GetTotalPage(pageSize,search);
-        BrokerData broker= new BrokerData(totalPage,model);
-             
-             return Ok(broker);
+            var model = await _brokerRepository.GetPaginatedData(pageNumber, pageSize, orderBy, search);
+
+            var totalPage = await _brokerRepository.GetTotalPage(pageSize, search);
+            BrokerData broker = new BrokerData(totalPage, model);
+
+            return Ok(broker);
+        }
+        
+        [HttpPut("{id}/approved")]
+        public async Task<IActionResult> UpdateApprovedStatus(int id, [FromBody] ApprovedDto dto)
+        {
+            var result = await _brokerRepository.UpdateApprovedStatusAsync(id, dto.Approved);
+            if (!result)
+                return NotFound(new { message = "Broker not found" });
+            return Ok(new { brokerId = id, approved = dto.Approved });
         }
         
     }

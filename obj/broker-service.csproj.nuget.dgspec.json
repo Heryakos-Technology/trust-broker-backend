@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj": {}
+    "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj": {}
   },
   "projects": {
-    "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj": {
+    "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj",
+        "projectUniqueName": "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj",
         "projectName": "broker-service",
-        "projectPath": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/broker-service.csproj",
-        "packagesPath": "/home/natnaels/.nuget/packages/",
-        "outputPath": "/home/natnaels/Desktop/Natnaels/SE/Work/Heryakos/.Net/Trust_Broker_Backend/trust-broker-backend/obj/",
+        "projectPath": "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\broker-service.csproj",
+        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
+        "outputPath": "D:\\SE\\WORK\\Heryakos\\trust-broker-backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/natnaels/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -38,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.200"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -82,17 +82,21 @@
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[9.0.3, )"
+              "version": "[9.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[9.0.3, )"
+              "version": "[9.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[9.0.5, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -114,7 +118,7 @@
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[9.0.4, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -144,7 +148,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

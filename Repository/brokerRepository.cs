@@ -181,5 +181,15 @@ namespace broker.Data
             return data.FirstOrDefault(x => x.User.Email.Contains(email))?.User;
 
         }
+
+        public async Task<bool> UpdateApprovedStatusAsync(int brokerId, bool approved)
+        {
+            var broker = await _context.Brokers.FirstOrDefaultAsync(b => b.BrokerId == brokerId);
+            if (broker == null)
+                return false;
+            broker.Approved = approved;
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
